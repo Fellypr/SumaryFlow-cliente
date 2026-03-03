@@ -47,14 +47,15 @@ function EyeOffIcon() {
   );
 }
 
-export default function Home() {
+export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
-    <div className="min-h-screen  flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-neutral-900/90 rounded-3xl p-8 shadow-xl">
         <div className="flex justify-center mb-8">
           <div className="w-16 h-16 rounded-full border-2 border-emerald-400 flex items-center justify-center bg-neutral-900">
@@ -103,31 +104,42 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="remember"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-              className="w-4 h-4 rounded border-neutral-600 bg-neutral-800 text-emerald-400 focus:ring-emerald-400"
-            />
-            <label htmlFor="remember" className="text-white text-sm">
-              Remember Me
+          <div>
+            <label className="block text-white text-sm font-medium mb-2">
+              Confirm Password
             </label>
+            <div className="flex items-center gap-3 px-4 py-3 bg-neutral-800/80 rounded-xl border border-neutral-600 focus-within:border-sky-500 focus-within:ring-1 focus-within:ring-sky-500">
+              <LockIcon />
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="flex-1 bg-transparent text-white placeholder-gray-500 focus:outline-none"
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="text-gray-400 hover:text-white transition-colors"
+                aria-label={showConfirmPassword ? "Ocultar senha" : "Mostrar senha"}
+              >
+                {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
+              </button>
+            </div>
           </div>
 
-          <Link
-            href="/sumary"
-            className="w-full py-3 px-4 bg-gradient-to-r from-sky-500 to-emerald-400 hover:from-sky-600 hover:to-emerald-500 text-white font-semibold rounded-xl transition-colors text-center inline-flex items-center justify-center"
+          <button
+            type="submit"
+            className="w-full py-3 px-4 bg-gradient-to-r from-sky-500 to-emerald-400 hover:from-sky-600 hover:to-emerald-500 text-white font-semibold rounded-xl transition-colors"
           >
-            Sign in now
-          </Link>
+            Sign up now
+          </button>
         </form>
 
         <p className="text-gray-500 text-xs text-center mt-6">
-          Need an account?{" "}
-          <Link href="/register" className="text-emerald-300 hover:text-emerald-200">
-            Register
+          Already have an account?{" "}
+          <Link href="/" className="text-emerald-300 hover:text-emerald-200">
+            Sign in
           </Link>
         </p>
       </div>

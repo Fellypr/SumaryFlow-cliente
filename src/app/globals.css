@@ -3,6 +3,17 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --login-bg: #0a0a0a;
+  --login-card: #262626;
+  --login-input-bg: rgba(64, 64, 64, 0.8);
+  --login-border: #525252;
+  --login-accent: #eab308;
+  --login-accent-hover: #ca8a04;
+  --login-accent-light: #facc15;
+  --login-icon-muted: #9ca3af;
+  --login-placeholder: #6b7280;
+  --login-text: #ffffff;
+  --login-text-muted: #6b7280;
 }
 
 @theme inline {
@@ -14,13 +25,14 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-background: #0a0a0a;
+    --color-foreground: #e5e5e5;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--login-bg);
+}
+p,h1{
+  color: var(--login-text);
 }

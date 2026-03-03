@@ -1,0 +1,70 @@
+import Navbar from "../components/navbar/Navbar";
+import {
+  LatestVideoPreview,
+  SummaryActivity,
+  RecentSummaries,
+} from "../components/sumary";
+import { Youtube, ExternalLink, Sparkles, CloudDownload } from "lucide-react";
+export default function Sumary() {
+  return (
+    <div>
+      <header className=" h-20 w-full flex items-center justify-center">
+        <Navbar />
+      </header>
+      <main className="min-h-screen px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <header className="max-w-2xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-start gap-6 sm:gap-8">
+            <div className="shrink-0 flex justify-center sm:justify-start">
+              <div className="w-14 h-14 rounded-xl bg-red-600/20 flex items-center justify-center">
+                <Youtube className="w-8 h-8 text-red-500" />
+              </div>
+            </div>
+            <div className="flex-1 min-w-0 space-y-4">
+              <h2 className="text-xl sm:text-2xl font-semibold text-white">
+                Summarize a YouTube Video
+              </h2>
+              <p className="text-gray-400 text-sm sm:text-base">
+                Enter the URL of a YouTube video and we&apos;ll summarize it for you.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <div className="relative flex-1 min-w-0">
+                  <ExternalLink className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                  <input
+                    type="text"
+                    placeholder="Enter the URL of a YouTube video"
+                    className="w-full pl-10 pr-4 py-3 rounded-lg bg-neutral-800/50 border border-neutral-600 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-400/50 focus:border-sky-500 transition-colors"
+                  />
+                </div>
+                <div className="flex gap-2 shrink-0">
+                  <button className="cursor-pointer flex-1 sm:flex-none px-4 py-3 rounded-lg bg-sky-500 text-white font-medium hover:bg-sky-600 transition-colors inline-flex items-center justify-center gap-2">
+                  <Sparkles className="w-4 h-4 text-white" />
+                    Summarize
+                  </button>
+                  <button className="cursor-pointer flex-1 sm:flex-none px-4 py-3 rounded-lg bg-black text-white font-medium hover:bg-gray-900
+                  border border-gray-700 transition-colors inline-flex items-center justify-center gap-2">
+                  <CloudDownload className="w-4 h-4 text-white" />
+                    Upload Video
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+        <section className="max-w-7xl mx-auto mt-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2 space-y-6">
+              <LatestVideoPreview />
+              <SummaryActivity />
+            </div>
+            <div className="lg:col-span-1">
+              <RecentSummaries />
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer>
+        <p>Footer</p>
+      </footer>
+    </div>
+  );
+}
