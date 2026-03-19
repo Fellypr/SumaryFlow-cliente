@@ -40,11 +40,7 @@ export default function Sumary() {
                   <Sparkles className="w-4 h-4 text-white" />
                     Summarize
                   </button>
-                  <button className="cursor-pointer flex-1 sm:flex-none px-4 py-3 rounded-lg bg-black text-white font-medium hover:bg-gray-900
-                  border border-gray-700 transition-colors inline-flex items-center justify-center gap-2">
-                  <CloudDownload className="w-4 h-4 text-white" />
-                    Upload Video
-                  </button>
+                  
                 </div>
               </div>
             </div>

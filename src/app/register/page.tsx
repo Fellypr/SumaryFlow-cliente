@@ -1,7 +1,9 @@
 "use client";
-
 import Link from "next/link";
-import { useState } from "react";
+import { useRegisterUser } from "../hooks/UseRegisterUser";
+import { useEffect } from "react";
+import MessageError from "../components/message/messageError";
+import MessageSuccess from "../components/message/messageSuccess";
 
 function PersonIcon() {
   return (
@@ -48,11 +50,14 @@ function EyeOffIcon() {
 }
 
 export default function Register() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const { userName, setUserName, password, setPassword, confirmPassword, setConfirmPassword, showPassword, setShowPassword, showConfirmPassword, setShowConfirmPassword,handleRegister,error,success } = useRegisterUser();
+
+
+  useEffect(() => {
+    console.log("erro a vista" + error);
+  },[error])
+
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -63,19 +68,19 @@ export default function Register() {
           </div>
         </div>
 
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleRegister}>
           <div>
             <label className="block text-white text-sm font-medium mb-2">
-              Email Address
+              UserName
             </label>
             <div className="flex items-center gap-3 px-4 py-3 bg-neutral-800/80 rounded-xl border border-neutral-600 focus-within:border-sky-500 focus-within:ring-1 focus-within:ring-sky-500">
               <EnvelopeIcon />
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
                 className="flex-1 bg-transparent text-white placeholder-gray-500 focus:outline-none"
-                placeholder="seu@email.com"
+                placeholder="User1234"
               />
             </div>
           </div>
@@ -130,7 +135,7 @@ export default function Register() {
 
           <button
             type="submit"
-            className="w-full py-3 px-4 bg-gradient-to-r from-sky-500 to-emerald-400 hover:from-sky-600 hover:to-emerald-500 text-white font-semibold rounded-xl transition-colors"
+            className="w-full py-3 px-4 bg-linear-to-r from-sky-500 to-emerald-400 hover:from-sky-600 hover:to-emerald-500 text-white font-semibold rounded-xl transition-colors cursor-pointer"
           >
             Sign up now
           </button>
@@ -143,6 +148,18 @@ export default function Register() {
           </Link>
         </p>
       </div>
+
+      {success && (
+        <div className="absolute right-9 top-25">
+          <MessageSuccess success={success} />
+        </div>
+      )}
+      {error && (
+        <div className="absolute right-9 top-25">
+          <MessageError error={error} />
+        </div>
+      )}
+
     </div>
   );
 }
