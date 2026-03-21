@@ -3,6 +3,7 @@
 import { authServices } from "../services/AuthService";
 import { parseApiError } from "../errors/apiError";
 import { useState } from "react";
+import { setCookie } from "nookies";
 
 import { useRouter } from 'next/navigation'
 
@@ -24,6 +25,10 @@ export const UseAuth = () => {
     setLoading(true)
     try {
         const user = await authServices.loginUser({userName,password})
+        setCookie(undefined, "auth.token", user.token, {
+          maxAge: 60 * 60 * 2,
+          path: "/",
+        });
         setIsSuccess(user.message)
         await sleep(5000)
         router.push("/sumary")

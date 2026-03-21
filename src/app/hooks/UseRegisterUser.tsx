@@ -3,6 +3,7 @@ import { useState } from "react";
 import { authServices } from "../services/AuthService";
 import { parseApiError } from "../errors/apiError";
 import { useRouter } from "next/navigation";
+import { setCookie } from "nookies";
 
 
 export const useRegisterUser = () => {
@@ -35,6 +36,10 @@ export const useRegisterUser = () => {
     setIsLoading(true);
     try {
       const user = await authServices.registerUser({ userName, password });
+      setCookie(undefined, "auth.token", user.token, {
+        maxAge: 60 * 60 * 2,
+        path: "/",
+      });
       setsuccess(user.message);
       await sleep(4000)
       router.push("/sumary");
