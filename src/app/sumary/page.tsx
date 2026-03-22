@@ -1,6 +1,7 @@
 "use client";
 
 import Navbar from "../components/navbar/Navbar";
+import LoadingGenerateSummary from "../components/loading/loadingGenerateSummary";
 import {
   LatestVideoPreview,
   SummaryActivity,
@@ -9,6 +10,7 @@ import {
 import { Youtube, ExternalLink, Sparkles } from "lucide-react";
 import { UseSummary } from "../hooks/useSummary";
 import { useEffect } from "react";
+
 export default function Sumary() {
   const { urlVideo, setUrlVideo, SubmitVideoUrl, loading, error } =
     UseSummary();
@@ -31,30 +33,37 @@ export default function Sumary() {
             </div>
             <div className="flex-1 min-w-0 space-y-4">
               <h2 className="text-xl sm:text-2xl font-semibold text-white">
-                Summarize a YouTube Video
+                Resuma um vídeo do YouTube
               </h2>
               <p className="text-gray-400 text-sm sm:text-base">
-                Enter the URL of a YouTube video and we&apos;ll summarize it for
-                you.
+                Digite o URL de um vídeo do YouTube e nós o resumiremos para
+                você.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <div className="relative flex-1 min-w-0">
                   <ExternalLink className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
                   <input
                     type="text"
-                    placeholder="Enter the URL of a YouTube video"
+                    placeholder="Digite o URL de um vídeo do YouTube"
                     className="w-full pl-10 pr-4 py-3 rounded-lg bg-neutral-800/50 border border-neutral-600 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-400/50 focus:border-sky-500 transition-colors"
                     onChange={(e) => setUrlVideo(e.target.value)}
                     value={urlVideo}
                   />
                 </div>
                 <div className="flex gap-2 shrink-0">
-                  <button className="cursor-pointer flex-1 sm:flex-none px-4 py-3 rounded-lg bg-sky-500 text-white font-medium hover:bg-sky-600 transition-colors inline-flex items-center justify-center gap-2" onClick={SubmitVideoUrl}>
-                    <Sparkles
-                      className="w-4 h-4 text-white"
-                    />
-                    Summarize
-                  </button>
+                  {loading ? (
+                    <button className="flex cursor-pointer flex-1 sm:flex-none px-2 py-2 rounded-lg bg-sky-900 text-white font-medium  items-center justify-center gap-2">
+                      <LoadingGenerateSummary />
+                    </button>
+                  ) : (
+                    <button
+                      className="cursor-pointer flex-1 sm:flex-none px-4 py-3 rounded-lg bg-sky-500 text-white font-medium hover:bg-sky-600 transition-colors inline-flex items-center justify-center gap-2"
+                      onClick={SubmitVideoUrl}
+                    >
+                      <Sparkles className="w-4 h-4 text-white" />
+                      Summarize
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -75,12 +84,6 @@ export default function Sumary() {
       <footer>
         <p>Footer</p>
       </footer>
-
-      {loading && (
-        <div className="absolute top-0 left-0 text-amber-400 text-7xl">
-          carregando
-        </div>
-      )}
     </div>
   );
 }

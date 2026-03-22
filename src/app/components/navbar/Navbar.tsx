@@ -14,7 +14,7 @@ export default function Navbar() {
             className="h-10 w-auto object-contain sm:h-12"
           />
           <p className="bg-linear-to-r from-sky-500 to-emerald-400 bg-clip-text text-2xl font-semibold tracking-tight text-transparent">
-          Sumy
+          Summy
             <span className="bg-linear-to-r from-sky-500 to-emerald-400 bg-clip-text text-2xl font-semibold tracking-tight text-transparent">
               Flow
             </span>

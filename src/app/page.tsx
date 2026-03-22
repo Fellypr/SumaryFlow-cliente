@@ -5,6 +5,7 @@ import {useState} from "react";
 import { UseAuth } from "./hooks/UseAuthUser";
 import MessageSuccess from "./components/message/messageSuccess";
 import MessageError from "./components/message/messageError";
+import LoadingAuth from "./components/loading/loadingAuthUser"
 
 function PersonIcon() {
   return (
@@ -163,12 +164,23 @@ export default function Home() {
             </label>
           </div>
 
-          <button
-            type="submit"
-            className="w-full py-3 px-4 bg-linear-to-r from-sky-500 to-emerald-400 hover:from-sky-600 hover:to-emerald-500 text-white font-semibold rounded-xl transition-colors text-center inline-flex items-center justify-center cursor-pointer"
-          >
-            Sign in now
-          </button>
+          {loading ? (
+            <button
+              type="submit"
+              disabled
+              aria-busy="true"
+              className="w-full py-1 px-1 bg-linear-to-r from-emerald-700 to-sky-800 text-white font-semibold rounded-xl transition-colors cursor-wait flex justify-center items-center shadow-lg shadow-emerald-950/40 opacity-90"
+            >
+              <LoadingAuth />
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="w-full py-3 px-4 bg-linear-to-r from-sky-500 to-emerald-400 hover:from-sky-600 hover:to-emerald-500 text-white font-semibold rounded-xl transition-colors text-center inline-flex items-center justify-center cursor-pointer"
+            >
+              Sign up now
+            </button>
+          )}
         </form>
 
         <p className="text-gray-500 text-xs text-center mt-6">
