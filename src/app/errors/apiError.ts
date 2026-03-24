@@ -9,18 +9,13 @@ export type ApiErrorSource =
 export interface ParsedApiError {
   source: ApiErrorSource;
   message: string;
-  /** Erros de validação por campo, quando disponíveis (DataAnnotations / ModelState) */
   validationErrors?: Record<string, string[]>;
-  /** Código HTTP bruto, se vier da API */
   statusCode?: number;
+  detail?: string;
 }
 
-/**
- * Normaliza erros vindos do backend (ModelState, mensagens do controller, exceções mapeadas)
- * e também erros genéricos de rede/Axios.
- */
 export function parseApiError(error: unknown): ParsedApiError {
-  // Tentativa de tratar como erro Axios: error.response.data...
+  
   if (error && typeof error === "object") {
     const e = error as Record<string, unknown>;
     const response = e["response"];

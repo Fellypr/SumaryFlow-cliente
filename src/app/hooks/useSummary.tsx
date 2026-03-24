@@ -1,15 +1,19 @@
 "use client";
 
-import { SummaryServices } from "../services/summaryService";
+import { GeminiServiceUserResult, SummaryServices } from "../services/summaryService";
 import { parseApiError } from "../errors/apiError";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 
-export const UseSummary = () =>{
+
+export const useSummary = () =>{
     const [urlVideo, setUrlVideo] = useState<string>("");
+    const [title,setTitle] = useState<string>("");
     const [error ,setError] = useState<string | null>(null);
     const [success, setIsSuccess] = useState<string | null>(null);
     const [loading,setLoading] = useState<boolean>(false);
+    const [isFetching ,setIsFetching] = useState<boolean> (false);
+    const [summarize , setSummarize] = useState<GeminiServiceUserResult[]>([]);
 
 
     const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -22,7 +26,6 @@ export const UseSummary = () =>{
             await sleep(5000)
             setIsSuccess("Summary feito com sucesso")
             setUrlVideo("")
-            console.log(response)
             return response
 
         }catch(err:unknown){
@@ -34,12 +37,44 @@ export const UseSummary = () =>{
 
     }
 
+    const showErrorTemporarily = useCallback((message: string, ms = 4000) => {
+        setError(message);
+        setTimeout(() => setError(null), ms);
+    }, []);
+
+    const GetSummaries = useCallback(async (idUser: number, searchTitle?: string) => {
+        setIsFetching(true);
+        try{
+            const normalizedTitle = (searchTitle ?? title).trim();
+            const response = await SummaryServices.getSummary({
+                idUser,
+                ...(normalizedTitle ? { title: normalizedTitle } : {}),
+            });
+            setSummarize(response);
+            console.log("response aqui :", response);
+            return response;
+        }catch(err:unknown){
+            console.error("Erro ao buscar summary:", err);
+            const msg = parseApiError(err)
+            console.error("Mensagem tratada:", msg.message);
+            showErrorTemporarily(msg.message,6000)
+            return [];
+        }finally{
+            setIsFetching(false);
+        }
+    }, [title, showErrorTemporarily]);
+
     return{
         urlVideo,
+        title,
+        summarize,
         setUrlVideo,
+        setTitle,
         error,
         success,
         loading,
-        SubmitVideoUrl
+        isFetching,
+        SubmitVideoUrl,
+        GetSummaries
     }
 }

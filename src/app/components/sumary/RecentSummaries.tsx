@@ -1,34 +1,49 @@
+"use client"
 import Link from "next/link";
 import SummaryItem from "./SummaryItem";
-
-const summaries = [
-  {
-    title: "Machine Learning Basics",
-    metadata: "12 min ago • 45 min video",
-    status: "complete" as const,
-    thumbnailBg: "bg-amber-900/50",
-  },
-  {
-    title: "UI/UX Design Principles",
-    metadata: "1 hour ago • 1h 20m video",
-    status: "complete" as const,
-    thumbnailBg: "bg-neutral-700",
-  },
-  {
-    title: "Node.js Crash Course",
-    metadata: "3 hours ago • 2h 10m video",
-    status: "complete" as const,
-    thumbnailBg: "bg-neutral-700",
-  },
-  {
-    title: "Podcast Production Tips",
-    metadata: "Yesterday • 55 min video",
-    status: "processing" as const,
-    thumbnailBg: "bg-amber-800/30",
-  },
-];
-
+import { Search } from "lucide-react";
+import { parseCookies } from "nookies";
+import { useEffect, useMemo } from "react";
+import {useSummary} from "../../hooks/useSummary";
 export default function RecentSummaries() {
+  const { summarize, setTitle, title, GetSummaries, isFetching } = useSummary();
+  const formatDate = (value: string) =>
+    new Date(value).toLocaleString("pt-BR", {
+      dateStyle: "short",
+      timeStyle: "short",
+    });
+
+  const idUser = useMemo(() => {
+    const { "auth.token": token } = parseCookies();
+    if (!token) return null;
+
+    try {
+      const base64Payload = token
+        .split(".")[1]
+        .replace(/-/g, "+")
+        .replace(/_/g, "/");
+      const payload = JSON.parse(atob(base64Payload));
+
+      return Number(
+        payload?.nameid ??
+        payload?.sub ??
+        payload?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"],
+      ) || null;
+    } catch {
+      return null;
+    }
+  }, []);
+
+  useEffect(()=>{
+    if (!idUser) return;
+
+    const timer = setTimeout(() => {
+      GetSummaries(idUser, title);
+    }, 350);
+    return () => clearTimeout(timer);
+  }, [idUser, title, GetSummaries]);
+  
+
   return (
     <div className="rounded-xl bg-neutral-800/50 border border-neutral-700 overflow-hidden">
       <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-700">
@@ -41,13 +56,31 @@ export default function RecentSummaries() {
         </Link>
       </div>
       <div className="p-3 space-y-1">
-        {summaries.map((item) => (
+        <div className="relative mb-3">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400 pointer-events-none" />
+          <input
+            type="text"
+            placeholder="Buscar por titulo (deixe vazio para recentes)"
+            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-neutral-900/70 border border-neutral-600 text-white placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500 transition-colors"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+
+        {isFetching && (
+          <p className="text-xs text-sky-400 mb-2">Buscando resumos...</p>
+        )}
+
+        {!isFetching && summarize.length === 0 && (
+          <p className="text-xs text-neutral-400 mb-2">Nenhum resumo encontrado.</p>
+        )}
+
+        {summarize.map((item, index) => (
           <SummaryItem
-            key={item.title}
+            key={`${item.title}-${item.dateCreateSumary}-${index}`}
             title={item.title}
-            metadata={item.metadata}
-            status={item.status}
-            thumbnailBg={item.thumbnailBg}
+            metadata={formatDate(item.dateCreateSumary)}
+            status="complete"
           />
         ))}
       </div>

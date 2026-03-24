@@ -15,6 +15,8 @@ export interface VideoSummary {
 export interface GeminiServiceUserResult {
   summary: string;
   mindMap: string | null;
+  dateCreateSumary: string;
+  title: string;
 }
 
 export type GetGeminiServiceUserParams = {
@@ -36,7 +38,7 @@ export const SummaryServices = {
     return data;
   },
   getSummary: async ({ idUser, title }: GetGeminiServiceUserParams) => {
-    const { data } = await api.get<GeminiServiceUserResult>(
+    const { data } = await api.get<GeminiServiceUserResult[]>(
       "/VideoSummary/get-gemini-service-user",
       { params: { idUser, ...(title ? { title } : {}) } },
     );

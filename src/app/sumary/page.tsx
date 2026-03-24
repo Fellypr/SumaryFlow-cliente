@@ -8,12 +8,12 @@ import {
   RecentSummaries,
 } from "../components/sumary";
 import { Youtube, ExternalLink, Sparkles } from "lucide-react";
-import { UseSummary } from "../hooks/useSummary";
+import { useSummary } from "../hooks/useSummary";
 import { useEffect } from "react";
 
 export default function Sumary() {
   const { urlVideo, setUrlVideo, SubmitVideoUrl, loading, error } =
-    UseSummary();
+    useSummary();
 
   useEffect(() => {
     console.log("error aqui :" + error);
