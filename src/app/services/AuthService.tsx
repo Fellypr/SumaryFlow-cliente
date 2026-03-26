@@ -15,6 +15,10 @@ type AuthCredentials = {
   password: string;
 };
 
+type LoginCredentials = AuthCredentials & {
+  rememberMe: boolean;
+};
+
 export const authServices = {
   registerUser: async (credentials: AuthCredentials) => {
     const { data } = await api.post<AuthResponse>(
@@ -23,8 +27,12 @@ export const authServices = {
     );
     return data;
   },
-  loginUser: async (credentials: AuthCredentials) => {
-    const { data } = await api.post<AuthResponse>("/Auth/login", credentials);
+  loginUser: async (credentials: LoginCredentials) => {
+    const { data } = await api.post<AuthResponse>("/Auth/login", {
+      username: credentials.userName,
+      password: credentials.password,
+      rememberMe: credentials.rememberMe,
+    });
     return data;
   },
 };

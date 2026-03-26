@@ -10,14 +10,25 @@ import {
 import { Youtube, ExternalLink, Sparkles } from "lucide-react";
 import { useSummary } from "../hooks/useSummary";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import {
+  clearAuthTokenCookie,
+  getAuthTokenFromCookies,
+  isAuthTokenValid,
+} from "../utils/authToken";
 
 export default function Sumary() {
-  const { urlVideo, setUrlVideo, SubmitVideoUrl, loading, error } =
-    useSummary();
+  const { urlVideo, setUrlVideo, SubmitVideoUrl, loading } = useSummary();
+  const router = useRouter();
 
   useEffect(() => {
-    console.log("error aqui :" + error);
-  }, [error]);
+    const token = getAuthTokenFromCookies();
+    if (!isAuthTokenValid(token)) {
+      clearAuthTokenCookie();
+      router.replace("/");
+    }
+  }, [router]);
+
   return (
     <div>
       <header className=" h-20 w-full flex items-center justify-center">

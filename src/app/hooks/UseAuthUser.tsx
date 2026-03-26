@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 export const UseAuth = () => {
   const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -24,9 +25,13 @@ export const UseAuth = () => {
     e.preventDefault()
     setLoading(true)
     try {
-        const user = await authServices.loginUser({userName,password})
+        const user = await authServices.loginUser({
+          userName,
+          password,
+          rememberMe,
+        });
         setCookie(undefined, "auth.token", user.token, {
-          maxAge: 60 * 60 * 2,
+          maxAge: rememberMe ? 60 * 60 * 24 * 30 : 60 * 60 * 2,
           path: "/",
         });
         setIsSuccess(user.message)
@@ -45,6 +50,8 @@ export const UseAuth = () => {
     setUserName,
     password,
     setPassword,
+    rememberMe,
+    setRememberMe,
     error,
     loading,
     success,

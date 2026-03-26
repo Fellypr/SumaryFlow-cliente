@@ -2,36 +2,29 @@
 import Link from "next/link";
 import SummaryItem from "./SummaryItem";
 import { Search } from "lucide-react";
-import { parseCookies } from "nookies";
-import { useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
 import {useSummary} from "../../hooks/useSummary";
+import {
+  getAuthTokenFromCookies,
+  getUserIdFromToken,
+  isAuthTokenValid,
+} from "../../utils/authToken";
 export default function RecentSummaries() {
   const { summarize, setTitle, title, GetSummaries, isFetching } = useSummary();
+  const [idUser, setIdUser] = useState<number | null>(null);
   const formatDate = (value: string) =>
     new Date(value).toLocaleString("pt-BR", {
       dateStyle: "short",
       timeStyle: "short",
     });
 
-  const idUser = useMemo(() => {
-    const { "auth.token": token } = parseCookies();
-    if (!token) return null;
-
-    try {
-      const base64Payload = token
-        .split(".")[1]
-        .replace(/-/g, "+")
-        .replace(/_/g, "/");
-      const payload = JSON.parse(atob(base64Payload));
-
-      return Number(
-        payload?.nameid ??
-        payload?.sub ??
-        payload?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"],
-      ) || null;
-    } catch {
-      return null;
+  useEffect(() => {
+    const token = getAuthTokenFromCookies();
+    if (!token || !isAuthTokenValid(token)) {
+      setIdUser(null);
+      return;
     }
+    setIdUser(getUserIdFromToken(token));
   }, []);
 
   useEffect(()=>{

@@ -1,8 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import {useState} from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { UseAuth } from "./hooks/UseAuthUser";
+import {
+  clearAuthTokenCookie,
+  getAuthTokenFromCookies,
+  isAuthTokenValid,
+} from "./utils/authToken";
 import MessageSuccess from "./components/message/messageSuccess";
 import MessageError from "./components/message/messageError";
 import LoadingAuth from "./components/loading/loadingAuthUser"
@@ -94,14 +100,25 @@ export default function Home() {
     setUserName,
     password,
     setPassword,
+    rememberMe,
+    setRememberMe,
     error,
     loading,
     success,
     AuthenticateUser,
   } = UseAuth();
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const router = useRouter();
 
-  
+  useEffect(() => {
+    const token = getAuthTokenFromCookies();
+    if (!token) return;
+    if (!isAuthTokenValid(token)) {
+      clearAuthTokenCookie();
+      return;
+    }
+    router.replace("/sumary");
+  }, [router]);
 
   return (
     <div className="min-h-screen  flex items-center justify-center p-4 ">
@@ -157,6 +174,8 @@ export default function Home() {
             <input
               type="checkbox"
               id="remember"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
               className="w-4 h-4 rounded border-neutral-600 bg-neutral-800 text-emerald-400 focus:ring-emerald-400"
             />
             <label htmlFor="remember" className="text-white text-sm">
