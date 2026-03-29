@@ -9,25 +9,28 @@ import {
 } from "../components/sumary";
 import { Youtube, ExternalLink, Sparkles } from "lucide-react";
 import { useSummary } from "../hooks/useSummary";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect} from "react";
+import { useRouter} from "next/navigation";
+import { parseCookies } from "nookies";
 import {
+  AUTH_TOKEN_COOKIE_KEY,
   clearAuthTokenCookie,
-  getAuthTokenFromCookies,
   isAuthTokenValid,
 } from "../utils/authToken";
+import MessageLogout from "../components/message/messageLogout";
 
 export default function Sumary() {
   const { urlVideo, setUrlVideo, SubmitVideoUrl, loading } = useSummary();
+
   const router = useRouter();
 
   useEffect(() => {
-    const token = getAuthTokenFromCookies();
+    const token = parseCookies()[AUTH_TOKEN_COOKIE_KEY];
     if (!isAuthTokenValid(token)) {
       clearAuthTokenCookie();
       router.replace("/");
     }
-  }, [router]);
+  }, [router]); 
 
   return (
     <div>
@@ -95,6 +98,10 @@ export default function Sumary() {
       <footer>
         <p>Footer</p>
       </footer>
+      <div className="flex justify-center items-center absolute top-0 w-full h-full bg-amber-200 ">
+          <MessageLogout/>
+      </div>
+
     </div>
   );
 }

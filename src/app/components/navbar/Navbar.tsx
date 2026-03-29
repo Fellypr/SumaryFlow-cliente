@@ -1,5 +1,7 @@
+import { LogOutIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import {clearAuthTokenCookie} from "@/app/utils/authToken"
 
 export default function Navbar() {
   return (
@@ -21,7 +23,7 @@ export default function Navbar() {
           </p>
         </div>
 
-        <ul className="flex items-center gap-3 sm:gap-4">
+        <ul className="flex items-center gap-3 sm:gap-5  w-[300px] relative right-[-100px]">
           <li>
             <Link
               href="/"
@@ -81,7 +83,15 @@ export default function Navbar() {
               </svg>
             </Link>
           </li>
+          <li>
+            <button className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/5 transition hover:border-white hover:bg-white/10  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70  hover:text-red-500 cursor-pointer relative left-15"
+            onClick={clearAuthTokenCookie}
+            >
+              <LogOutIcon className="w-5 h-5 text-white/80 transition group-hover:text-white" />
+            </button>
+          </li>
         </ul>
+
       </div>
     </nav>
   );

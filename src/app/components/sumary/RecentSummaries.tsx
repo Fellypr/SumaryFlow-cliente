@@ -1,31 +1,32 @@
 "use client"
 import Link from "next/link";
-import SummaryItem from "./SummaryItem";
 import { Search } from "lucide-react";
+import SummaryItem from "./SummaryItem";
 import { useEffect, useState } from "react";
-import {useSummary} from "../../hooks/useSummary";
+import { parseCookies } from "nookies";
+import { useSummary } from "../../hooks/useSummary";
 import {
-  getAuthTokenFromCookies,
+  AUTH_TOKEN_COOKIE_KEY,
   getUserIdFromToken,
   isAuthTokenValid,
 } from "../../utils/authToken";
+
 export default function RecentSummaries() {
   const { summarize, setTitle, title, GetSummaries, isFetching } = useSummary();
   const [idUser, setIdUser] = useState<number | null>(null);
+
+  
+  useEffect(() => {
+    const token = parseCookies()[AUTH_TOKEN_COOKIE_KEY];
+    const nextId =
+      token && isAuthTokenValid(token) ? getUserIdFromToken(token) : null;
+    queueMicrotask(() => setIdUser(nextId));
+  }, []);
   const formatDate = (value: string) =>
     new Date(value).toLocaleString("pt-BR", {
       dateStyle: "short",
       timeStyle: "short",
     });
-
-  useEffect(() => {
-    const token = getAuthTokenFromCookies();
-    if (!token || !isAuthTokenValid(token)) {
-      setIdUser(null);
-      return;
-    }
-    setIdUser(getUserIdFromToken(token));
-  }, []);
 
   useEffect(()=>{
     if (!idUser) return;

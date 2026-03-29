@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 import { UseAuth } from "./hooks/UseAuthUser";
 import {
   clearAuthTokenCookie,
-  getAuthTokenFromCookies,
   isAuthTokenValid,
+  AUTH_TOKEN_COOKIE_KEY,
 } from "./utils/authToken";
-import MessageSuccess from "./components/message/messageSuccess";
+import { parseCookies } from "nookies";
 import MessageError from "./components/message/messageError";
 import LoadingAuth from "./components/loading/loadingAuthUser"
 
@@ -104,14 +104,13 @@ export default function Home() {
     setRememberMe,
     error,
     loading,
-    success,
     AuthenticateUser,
   } = UseAuth();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
-    const token = getAuthTokenFromCookies();
+    const token = parseCookies()[AUTH_TOKEN_COOKIE_KEY];
     if (!token) return;
     if (!isAuthTokenValid(token)) {
       clearAuthTokenCookie();
@@ -212,11 +211,7 @@ export default function Home() {
           </Link>
         </p>
       </div>
-      {success && (
-        <div className="absolute right-9 top-25">
-          <MessageSuccess success={success} />
-        </div>
-      )}
+      
       {error && (
         <div className="absolute right-9 top-25">
           <MessageError error={error} />

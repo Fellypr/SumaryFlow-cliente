@@ -4,9 +4,9 @@ import { authServices } from "../services/AuthService";
 import { parseApiError } from "../errors/apiError";
 import { useState } from "react";
 import { setCookie } from "nookies";
-
-import { useRouter } from 'next/navigation'
-
+import { AUTH_TOKEN_COOKIE_KEY } from "@/app/utils/authToken";
+import { useRouter } from 'next/navigation';
+import toast from "react-hot-toast";
 export const UseAuth = () => {
   const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -14,29 +14,29 @@ export const UseAuth = () => {
 
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [success, setIsSuccess] = useState<string | null>(null);
   const router = useRouter();
 
 
 
-  const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   async function AuthenticateUser(e:React.FormEvent) {
     e.preventDefault()
     setLoading(true)
+    setError(null)
     try {
         const user = await authServices.loginUser({
           userName,
           password,
           rememberMe,
         });
-        setCookie(undefined, "auth.token", user.token, {
+        setCookie(undefined, AUTH_TOKEN_COOKIE_KEY, user.token, {
           maxAge: rememberMe ? 60 * 60 * 24 * 30 : 60 * 60 * 2,
           path: "/",
         });
-        setIsSuccess(user.message)
-        await sleep(5000)
-        router.push("/sumary")
+        toast.success(user.message)
+        router.push(
+            "/sumary"
+        )
         return user
     } catch(err){
         const msgError = parseApiError(err);
@@ -54,7 +54,6 @@ export const UseAuth = () => {
     setRememberMe,
     error,
     loading,
-    success,
     AuthenticateUser,
   };
 };

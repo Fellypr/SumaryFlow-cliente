@@ -1,6 +1,8 @@
-import { destroyCookie, parseCookies } from "nookies";
+import { destroyCookie} from "nookies";
+import { NextRequest } from "next/server";
 
 export const AUTH_TOKEN_COOKIE_KEY = "auth.token";
+
 
 function decodeJwtPayload(token: string): Record<string, unknown> | null {
   try {
@@ -13,8 +15,15 @@ function decodeJwtPayload(token: string): Record<string, unknown> | null {
   }
 }
 
-export function getAuthTokenFromCookies(): string | undefined {
-  return parseCookies()[AUTH_TOKEN_COOKIE_KEY];
+export function getAuthTokenFromCookies(request: NextRequest): string | undefined {
+  if(!request || !request.cookies){
+    return undefined;
+  }
+  return request.cookies.get(AUTH_TOKEN_COOKIE_KEY)?.value;
+}
+
+export function getAuthTokenFromCookies2(request: NextRequest) {
+  return request.cookies.get(AUTH_TOKEN_COOKIE_KEY)?.value;
 }
 
 export function isAuthTokenValid(token: string | undefined): boolean {
