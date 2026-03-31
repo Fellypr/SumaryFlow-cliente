@@ -9,7 +9,7 @@ import {
 } from "../components/sumary";
 import { Youtube, ExternalLink, Sparkles } from "lucide-react";
 import { useSummary } from "../hooks/useSummary";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useRouter} from "next/navigation";
 import { parseCookies } from "nookies";
 import {
@@ -17,13 +17,11 @@ import {
   clearAuthTokenCookie,
   isAuthTokenValid,
 } from "../utils/authToken";
-import MessageLogout from "../components/message/messageLogout";
 
 export default function Sumary() {
   const { urlVideo, setUrlVideo, SubmitVideoUrl, loading } = useSummary();
 
   const router = useRouter();
-  const [isLogoutOpen, setIsLogoutOpen] = useState(true);
 
   useEffect(() => {
     const token = parseCookies()[AUTH_TOKEN_COOKIE_KEY];
@@ -33,20 +31,7 @@ export default function Sumary() {
     }
   }, [router]); 
 
-  useEffect(() => {
-    if (!isLogoutOpen) return;
-
-    const originalOverflowX = document.body.style.overflowX;
-    const originalOverflowY = document.body.style.overflowY;
-
-    document.body.style.overflowX = "hidden";
-    document.body.style.overflowY = "hidden";
-
-    return () => {
-      document.body.style.overflowX = originalOverflowX;
-      document.body.style.overflowY = originalOverflowY;
-    };
-  }, [isLogoutOpen]);
+ 
 
   return (
     <div>

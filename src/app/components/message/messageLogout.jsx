@@ -1,7 +1,6 @@
 "use client";
 import styled from "styled-components";
 import { clearAuthTokenCookie } from "@/app/utils/authToken";
-import Loading from "@/app/components/loading/loadingAuthUser";
 import { useState } from "react";
 const MessageLogout = ({ onCancel }) => {
   const [loading, setLoading] = useState(false);
@@ -46,11 +45,12 @@ const MessageLogout = ({ onCancel }) => {
           <div className="actions">
             {loading ? (
               <button className="desactivate" type="button">
-                Saindo...
+                <p>Desativando</p>
+                <span>...</span>
               </button>
             ) : (
               <button className="desactivate" type="button" onClick={LogoOut}>
-                Deactivate
+                Desativar
               </button>
             )}
             <button className="cancel" type="button" onClick={onCancel}>
