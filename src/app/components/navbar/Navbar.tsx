@@ -1,10 +1,30 @@
+"use client";
+
 import { LogOutIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import {clearAuthTokenCookie} from "@/app/utils/authToken"
-
+import MessageLogout from"@/app/components/message/messageLogout";
+import { useState, useEffect } from "react";
 export default function Navbar() {
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isLogoutOpen) return;
+
+    const originalOverflowX = document.body.style.overflowX;
+    const originalOverflowY = document.body.style.overflowY;
+
+    document.body.style.overflowX = "hidden";
+    document.body.style.overflowY = "hidden";
+
+    return () => {
+      document.body.style.overflowX = originalOverflowX;
+      document.body.style.overflowY = originalOverflowY;
+    };
+  }, [isLogoutOpen]);
+
   return (
+    <>
     <nav className="w-full bg-black/70 backdrop-blur-md border-b border-white/10">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4 text-white">
         <div className="flex items-center gap-2">
@@ -85,14 +105,19 @@ export default function Navbar() {
           </li>
           <li>
             <button className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/5 transition hover:border-white hover:bg-white/10  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70  hover:text-red-500 cursor-pointer relative left-15"
-            onClick={clearAuthTokenCookie}
+            onClick={() => setIsLogoutOpen(true)}
             >
               <LogOutIcon className="w-5 h-5 text-white/80 transition group-hover:text-white" />
             </button>
           </li>
         </ul>
-
       </div>
     </nav>
+    {isLogoutOpen && (
+        <div className="flex justify-center items-center fixed inset-0 w-full h-full bg-black/70 z-20">
+          <MessageLogout onCancel={() => setIsLogoutOpen(false)} />
+        </div>
+    )}
+    </>
   );
 }
