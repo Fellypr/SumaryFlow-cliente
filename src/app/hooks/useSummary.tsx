@@ -26,7 +26,7 @@ export const useSummary = () =>{
             await sleep(5000)
             setIsSuccess("Summary feito com sucesso")
             setUrlVideo("")
-            return response
+            return response;
 
         }catch(err:unknown){
             const msg = parseApiError(err)
@@ -51,12 +51,9 @@ export const useSummary = () =>{
                 ...(normalizedTitle ? { title: normalizedTitle } : {}),
             });
             setSummarize(response);
-            console.log("response aqui :", response);
             return response;
         }catch(err:unknown){
-            console.error("Erro ao buscar summary:", err);
             const msg = parseApiError(err)
-            console.error("Mensagem tratada:", msg.message);
             showErrorTemporarily(msg.message,6000)
             return [];
         }finally{

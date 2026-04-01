@@ -12,7 +12,7 @@ import {
 } from "../../utils/authToken";
 
 export default function RecentSummaries() {
-  const { summarize, setTitle, title, GetSummaries, isFetching } = useSummary();
+  const { summarize, setTitle, title, GetSummaries, isFetching ,SubmitVideoUrl} = useSummary();
   const [idUser, setIdUser] = useState<number | null>(null);
 
   
@@ -35,7 +35,7 @@ export default function RecentSummaries() {
       GetSummaries(idUser, title);
     }, 350);
     return () => clearTimeout(timer);
-  }, [idUser, title, GetSummaries]);
+  }, [idUser, title, GetSummaries,SubmitVideoUrl]);
   
 
   return (
