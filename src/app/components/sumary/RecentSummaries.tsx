@@ -33,9 +33,9 @@ export default function RecentSummaries() {
 
     const timer = setTimeout(() => {
       GetSummaries(idUser, title);
-    }, 350);
+    },500);
     return () => clearTimeout(timer);
-  }, [idUser, title, GetSummaries,SubmitVideoUrl]);
+  }, [idUser, title, GetSummaries]);
   
 
   return (
@@ -61,9 +61,7 @@ export default function RecentSummaries() {
           />
         </div>
 
-        {isFetching && (
-          <p className="text-xs text-sky-400 mb-2">Buscando resumos...</p>
-        )}
+        
 
         {!isFetching && summarize.length === 0 && (
           <p className="text-xs text-neutral-400 mb-2">Nenhum resumo encontrado.</p>

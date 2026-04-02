@@ -18,7 +18,7 @@ export const useSummary = () =>{
 
     const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-    async function SubmitVideoUrl(e:React.FormEvent){
+    async function SubmitVideoUrl (e:React.FormEvent){
         e.preventDefault();
         setLoading(true)
         try{
@@ -51,6 +51,7 @@ export const useSummary = () =>{
                 ...(normalizedTitle ? { title: normalizedTitle } : {}),
             });
             setSummarize(response);
+            console.log(response);
             return response;
         }catch(err:unknown){
             const msg = parseApiError(err)

@@ -17,6 +17,7 @@ export interface GeminiServiceUserResult {
   mindMap: string | null;
   dateCreateSumary: string;
   title: string;
+  thumbnaiUrl: string;
 }
 
 export type GetGeminiServiceUserParams = {
