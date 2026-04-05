@@ -19,7 +19,7 @@ import {
 } from "../utils/authToken";
 
 export default function Sumary() {
-  const { urlVideo, setUrlVideo, SubmitVideoUrl, loading,summarize } = useSummary();
+  const { urlVideo, setUrlVideo, SubmitVideoUrl, loading } = useSummary();
 
   const router = useRouter();
 

@@ -2,52 +2,21 @@
 import Link from "next/link";
 import { Search } from "lucide-react";
 import SummaryItem from "./SummaryItem";
-import { useEffect, useState } from "react";
-import { parseCookies } from "nookies";
 import { useSummary } from "../../hooks/useSummary";
-import {
-  AUTH_TOKEN_COOKIE_KEY,
-  getUserIdFromToken,
-  isAuthTokenValid,
-} from "../../utils/authToken";
 
 export default function RecentSummaries() {
-  const { summarize, setTitle, title, GetSummaries, isFetching ,SubmitVideoUrl} = useSummary();
-  const [idUser, setIdUser] = useState<number | null>(null);
+  const { summarize, setTitle, title, isFetching } = useSummary();
 
-  
-  useEffect(() => {
-    const token = parseCookies()[AUTH_TOKEN_COOKIE_KEY];
-    const nextId =
-      token && isAuthTokenValid(token) ? getUserIdFromToken(token) : null;
-    queueMicrotask(() => setIdUser(nextId));
-  }, []);
   const formatDate = (value: string) =>
     new Date(value).toLocaleString("pt-BR", {
       dateStyle: "short",
       timeStyle: "short",
     });
 
-  useEffect(()=>{
-    if (!idUser) return;
-
-    const timer = setTimeout(() => {
-      GetSummaries(idUser, title);
-    },500);
-    return () => clearTimeout(timer);
-  }, [idUser, title, GetSummaries]);
-  
-
   return (
     <div className="rounded-xl bg-neutral-800/50 border border-neutral-700 overflow-hidden">
       <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-700">
         <h3 className="text-white font-medium">Recent Summaries</h3>
-        <Link
-          href="#"
-          className="text-sm text-sky-400 hover:text-sky-300 transition-colors"
-        >
-          View All
-        </Link>
       </div>
       <div className="p-3 space-y-1">
         <div className="relative mb-3">
@@ -71,8 +40,8 @@ export default function RecentSummaries() {
           <SummaryItem
             key={`${item.title}-${item.dateCreateSumary}-${index}`}
             title={item.title}
+            thumbnaiUrl={item.thumbnaiUrl}
             metadata={formatDate(item.dateCreateSumary)}
-            status="complete"
           />
         ))}
       </div>

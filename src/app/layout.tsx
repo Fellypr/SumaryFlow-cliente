@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import { CheckCircleIcon } from "lucide-react";
+import { AppProvider } from "../context/AppProvider";
+import {
+   CheckCircleIcon,
+   CircleX
+
+} from "lucide-react";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,24 +33,45 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
-        <Toaster 
-        position="top-right"
-        reverseOrder={false}
-         toastOptions={{
-          duration: 5000,
-          style: {
-            background: "#363636",
-            color: "#fff",
-            minWidth: "200px"
-          },
-            className: "text-left flex items-center gap-2",
-            icon: <CheckCircleIcon className="w-5 h-5 text-green-500" />,
-        }}
-        containerStyle={{
-          top: "100px",
-        }}
-         />
+        <AppProvider>
+          {children}
+          <Toaster 
+          toasterId="menssageSuccess"
+          position="top-right"
+          reverseOrder={false}
+           toastOptions={{
+            duration: 5000,
+            style: {
+              background: "#363636",
+              color: "#fff",
+              minWidth: "200px"
+            },
+              className: "text-left flex items-center gap-2",
+              icon: <CheckCircleIcon className="w-5 h-5 text-green-500" />,
+          }}
+          containerStyle={{
+            top: "100px",
+          }}
+           />
+           <Toaster 
+          toasterId="menssageErro"
+          position="top-right"
+          reverseOrder={false}
+           toastOptions={{
+            duration: 3000,
+            style: {
+              background: "#363636",
+              color: "#fff",
+              minWidth: "200px"
+            },
+              className: "text-left flex items-center gap-2 z-10",
+              icon: <CircleX className="w-5 h-5 text-red-500" />
+          }}
+          containerStyle={{
+            top: "100px",
+          }}
+           />
+        </AppProvider>
       </body>
     </html>
   );

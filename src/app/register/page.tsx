@@ -1,9 +1,6 @@
 "use client";
 import Link from "next/link";
 import { useRegisterUser } from "../hooks/UseRegisterUser";
-import { useEffect } from "react";
-import MessageError from "../components/message/messageError";
-import MessageSuccess from "../components/message/messageSuccess";
 import LoadingAuth from "../components/loading/loadingAuthUser"
 
 function PersonIcon() {
@@ -52,12 +49,9 @@ function EyeOffIcon() {
 
 export default function Register() {
 
-  const { userName, setUserName, password, setPassword, confirmPassword, setConfirmPassword, showPassword, setShowPassword, showConfirmPassword, setShowConfirmPassword,handleRegister,error,success,isLoading } = useRegisterUser();
+  const { userName, setUserName, password, setPassword, confirmPassword, setConfirmPassword, showPassword, setShowPassword, showConfirmPassword, setShowConfirmPassword,handleRegister,isLoading } = useRegisterUser();
 
 
-  useEffect(() => {
-    console.log("erro a vista" + error);
-  },[error])
 
 
   return (
@@ -163,16 +157,6 @@ export default function Register() {
         </p>
       </div>
 
-      {success && (
-        <div className="absolute right-9 top-25">
-          <MessageSuccess success={success} />
-        </div>
-      )}
-      {error && (
-        <div className="absolute right-9 top-25">
-          <MessageError error={error} />
-        </div>
-      )}
 
     </div>
   );

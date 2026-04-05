@@ -4,7 +4,7 @@ import { authServices } from "../services/AuthService";
 import { parseApiError } from "../errors/apiError";
 import { useRouter } from "next/navigation";
 import { setCookie } from "nookies";
-
+import toast from "react-hot-toast";
 
 export const useRegisterUser = () => {
   const [userName, setUserName] = useState<string>("");
@@ -16,7 +16,6 @@ export const useRegisterUser = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setsuccess] = useState<string | null>(null);
   const router = useRouter();
 
   const handleRegister = async (event: React.FormEvent) => {
@@ -40,13 +39,19 @@ export const useRegisterUser = () => {
         maxAge: 60 * 60 * 2,
         path: "/",
       });
-      setsuccess(user.message);
+      toast.success(user.message,{
+        toasterId:"menssageSuccess"
+      });
       await sleep(4000)
       router.push("/sumary");
       return user;
     } catch (err: unknown) {
       const msgError = parseApiError(err)
-      setError(msgError.message)
+      toast.error(msgError.message,{
+        toasterId:"menssageErro"
+      })
+      console.log(msgError);
+      return null;
     } finally {
       setIsLoading(false);
     }
@@ -65,8 +70,7 @@ export const useRegisterUser = () => {
     setShowConfirmPassword,
     handleRegister,
     isLoading,
-    error,
-    success,
+    error
   };
 };
 
