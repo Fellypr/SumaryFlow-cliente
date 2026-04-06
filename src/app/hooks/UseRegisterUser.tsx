@@ -50,7 +50,6 @@ export const useRegisterUser = () => {
       toast.error(msgError.message,{
         toasterId:"menssageErro"
       })
-      console.log(msgError);
       return null;
     } finally {
       setIsLoading(false);

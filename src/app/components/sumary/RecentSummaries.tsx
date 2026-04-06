@@ -1,5 +1,4 @@
 "use client"
-import Link from "next/link";
 import { Search } from "lucide-react";
 import SummaryItem from "./SummaryItem";
 import { useSummary } from "../../hooks/useSummary";
@@ -42,6 +41,7 @@ export default function RecentSummaries() {
             title={item.title}
             thumbnaiUrl={item.thumbnaiUrl}
             metadata={formatDate(item.dateCreateSumary)}
+            item={item}
           />
         ))}
       </div>

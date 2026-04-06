@@ -4,6 +4,7 @@ import React, { createContext, useState, useCallback, ReactNode, useContext, use
 import { GeminiServiceUserResult, SummaryServices } from "../app/services/summaryService";
 import { parseApiError } from "../app/errors/apiError";
 import { AuthContext } from "./AuthContext";
+import toast from "react-hot-toast";
 
 interface SummaryContextData {
     urlVideo: string;
@@ -11,12 +12,13 @@ interface SummaryContextData {
     summarize: GeminiServiceUserResult[];
     setUrlVideo: (val: string) => void;
     setTitle: (val: string) => void;
-    error: string | null;
-    success: string | null;
+    setSumarizeActive: (val: GeminiServiceUserResult | null) => void;
+    sumarizeActive: GeminiServiceUserResult | null;
     loading: boolean;
     isFetching: boolean;
     SubmitVideoUrl: (e: React.FormEvent) => Promise<any>;
     GetSummaries: (idUserParam?: number, searchTitle?: string) => Promise<any>;
+    handleSumarize: (item: GeminiServiceUserResult) => void;
 }
 
 export const SummaryContext = createContext({} as SummaryContextData);
@@ -26,18 +28,16 @@ export const SummaryProvider = ({ children }: { children: ReactNode }) => {
 
     const [urlVideo, setUrlVideo] = useState<string>("");
     const [title, setTitle] = useState<string>("");
-    const [error, setError] = useState<string | null>(null);
-    const [success, setIsSuccess] = useState<string | null>(null);
+    
+    
     const [loading, setLoading] = useState<boolean>(false);
     const [isFetching, setIsFetching] = useState<boolean>(false);
     const [summarize, setSummarize] = useState<GeminiServiceUserResult[]>([]);
+    const [sumarizeActive, setSumarizeActive] = useState<GeminiServiceUserResult | null>(null);
 
-    const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-    const showErrorTemporarily = useCallback((message: string, ms = 4000) => {
-        setError(message);
-        setTimeout(() => setError(null), ms);
-    }, []);
+    const handleSumarize =(item: GeminiServiceUserResult) => {
+        setSumarizeActive(item);
+    };
 
     const GetSummaries = useCallback(async (idUserParam?: number, searchTitle?: string) => {
         const targetIdUser = idUserParam || idUser;
@@ -54,30 +54,33 @@ export const SummaryProvider = ({ children }: { children: ReactNode }) => {
             return response;
         } catch (err: unknown) {
             const msg = parseApiError(err);
-            showErrorTemporarily(msg.message, 6000);
+            toast.error(msg.message, {
+                toasterId: "menssageErro",
+            });
             return [];
         } finally {
             setIsFetching(false);
         }
-    }, [idUser, title, showErrorTemporarily]);
+    }, [idUser, title]);
 
     async function SubmitVideoUrl(e: React.FormEvent) {
         e.preventDefault();
         setLoading(true);
         try {
             const response = await SummaryServices.registerSummry({ videoUrl: urlVideo });
-            await sleep(5000); 
-            setIsSuccess("Summary feito com sucesso");
+            toast.success("Sumário gerado com sucesso", {
+                toasterId: "menssageSuccess",
+            });
             setUrlVideo("");
-            
             if (idUser) {
               await GetSummaries(idUser);
             }
-
             return response;
         } catch (err: unknown) {
             const msg = parseApiError(err);
-            setError(msg.message);
+            toast.error(msg.message, {
+                toasterId: "menssageErro",
+            });
         } finally {
             setLoading(false);
         }
@@ -99,12 +102,13 @@ export const SummaryProvider = ({ children }: { children: ReactNode }) => {
                 summarize,
                 setUrlVideo,
                 setTitle,
-                error,
-                success,
                 loading,
                 isFetching,
                 SubmitVideoUrl,
-                GetSummaries
+                GetSummaries,
+                handleSumarize,
+                sumarizeActive,
+                setSumarizeActive
             }}
         >
             {children}

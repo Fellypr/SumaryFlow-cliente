@@ -13,6 +13,7 @@ export interface VideoSummary {
 }
 
 export interface GeminiServiceUserResult {
+  id: number;
   summary: string;
   mindMap: string | null;
   dateCreateSumary: string;

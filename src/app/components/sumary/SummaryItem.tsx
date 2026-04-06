@@ -1,10 +1,14 @@
 import { Check} from "lucide-react";
 import Image from "next/image";
+import { useSummary } from "../../hooks/useSummary";
+import { GeminiServiceUserResult } from "@/app/services/summaryService";
 interface SummaryItemProps {
+  key: string;
   title: string;
   metadata: string;
   thumbnailBg?: string;
   thumbnaiUrl: string;
+  item: GeminiServiceUserResult;
 }
 
 export default function SummaryItem({
@@ -12,9 +16,11 @@ export default function SummaryItem({
   metadata,
   thumbnailBg = "bg-neutral-700",
   thumbnaiUrl,
+  item,
 }: SummaryItemProps) {
+  const { handleSumarize } = useSummary();
   return (
-    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-neutral-700/30 transition-colors cursor-pointer">
+    <div onClick={() => handleSumarize(item)} key={item.id} className="flex items-center gap-4 p-3 rounded-lg hover:bg-neutral-700/30 transition-colors cursor-pointer">
       <div
         className={`w-12 h-12 rounded-lg shrink-0 flex items-center justify-center ${thumbnailBg} border border-neutral-600`}
       >
