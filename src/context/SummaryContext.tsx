@@ -38,6 +38,9 @@ export const SummaryProvider = ({ children }: { children: ReactNode }) => {
     const handleSumarize =(item: GeminiServiceUserResult) => {
         setSumarizeActive(item);
     };
+    useEffect(() => {
+        console.log(sumarizeActive)
+    },[sumarizeActive])
 
     const GetSummaries = useCallback(async (idUserParam?: number, searchTitle?: string) => {
         const targetIdUser = idUserParam || idUser;
@@ -89,6 +92,7 @@ export const SummaryProvider = ({ children }: { children: ReactNode }) => {
         if (!idUser) return;
         const timer = setTimeout(() => {
             GetSummaries(idUser, title);
+            console.log(summarize)
         }, 500);
         return () => clearTimeout(timer);
     }, [idUser, title, GetSummaries]);

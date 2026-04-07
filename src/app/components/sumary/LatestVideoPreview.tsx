@@ -1,8 +1,6 @@
 "use client";
 import { Play, Calendar } from "lucide-react";
 import { useSummary } from "../../hooks/useSummary";
-import { useState, useEffect } from "react";
-import { GeminiServiceUserResult } from "@/app/services/summaryService";
 export default function LatestVideoPreview() {
   const {sumarizeActive, summarize} = useSummary();
   
@@ -13,6 +11,16 @@ export default function LatestVideoPreview() {
       dateStyle: "short",
       timeStyle: "short",
     });
+    const time = latestVideo?.duration
+    const timeFormation = time?.replace(/^00:/, '')
+
+    const formatarViews = (numero: number) => {
+      return new Intl.NumberFormat('pt-BR', {
+        notation: 'compact',
+        compactDisplay: 'short'
+      }).format(numero);
+    };
+
   return (
     <div className="rounded-xl bg-neutral-800/50 border border-neutral-700/60 overflow-hidden shadow-lg shadow-black/20">
       <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-700/60 bg-neutral-800/30">
@@ -47,7 +55,14 @@ export default function LatestVideoPreview() {
                   <Calendar className="w-4 h-4 opacity-80" />
                   {formatDate(latestVideo?.dateCreateSumary)}
                 </span>
+                <span>
+                  {timeFormation}
+                </span>
+                <span>
+                  {formatarViews(latestVideo.vizualization)}
+                </span>
               </div>
+              
             </div>
           </div>
         </div>

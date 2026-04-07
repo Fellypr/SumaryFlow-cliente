@@ -9,6 +9,8 @@ export interface VideoSummary {
   textGemini: string;
   mindMap: string | null;
   dateCreateSumary: string;
+  duration: string;
+  vizualization: number;
   idUser: number;
 }
 
@@ -19,6 +21,8 @@ export interface GeminiServiceUserResult {
   dateCreateSumary: string;
   title: string;
   thumbnaiUrl: string;
+  duration: string;
+  vizualization: number;
 }
 
 export type GetGeminiServiceUserParams = {

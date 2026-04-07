@@ -7,6 +7,7 @@ export function proxy(request: NextRequest) {
 
   if (!token || !isAuthTokenValid(token)) {
     return NextResponse.redirect(new URL('/', request.url));
+    
   }
 
   return NextResponse.next();
