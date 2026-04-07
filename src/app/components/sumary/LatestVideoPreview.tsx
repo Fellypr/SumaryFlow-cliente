@@ -1,5 +1,5 @@
 "use client";
-import { Play, Calendar } from "lucide-react";
+import { Play, Calendar, Timer, Eye } from "lucide-react";
 import { useSummary } from "../../hooks/useSummary";
 export default function LatestVideoPreview() {
   const {sumarizeActive, summarize} = useSummary();
@@ -8,8 +8,7 @@ export default function LatestVideoPreview() {
 
   const formatDate = (value: string) =>
     new Date(value).toLocaleString("pt-BR", {
-      dateStyle: "short",
-      timeStyle: "short",
+      dateStyle: "short"
     });
     const time = latestVideo?.duration
     const timeFormation = time?.replace(/^00:/, '')
@@ -23,13 +22,6 @@ export default function LatestVideoPreview() {
 
   return (
     <div className="rounded-xl bg-neutral-800/50 border border-neutral-700/60 overflow-hidden shadow-lg shadow-black/20">
-      <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-700/60 bg-neutral-800/30">
-        <h3 className="text-neutral-100 font-semibold flex items-center gap-2.5">
-          <span className="w-1.5 h-5 bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
-          Vídeo Mais Recente
-        </h3>
-      </div>
-      
       {latestVideo ? (
         <div className="relative aspect-video w-full overflow-hidden group cursor-pointer bg-neutral-900">
           <div
@@ -55,10 +47,12 @@ export default function LatestVideoPreview() {
                   <Calendar className="w-4 h-4 opacity-80" />
                   {formatDate(latestVideo?.dateCreateSumary)}
                 </span>
-                <span>
+                <span className="flex items-center gap-1.5 drop-shadow-md">
+                  <Timer className="w-4 h-4 opacity-80" />
                   {timeFormation}
                 </span>
-                <span>
+                <span className="flex items-center gap-1.5 drop-shadow-md">
+                  <Eye className="w-4 h-4 opacity-80" />
                   {formatarViews(latestVideo.vizualization)}
                 </span>
               </div>
