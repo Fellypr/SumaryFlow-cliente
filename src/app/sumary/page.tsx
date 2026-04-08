@@ -96,6 +96,7 @@ export default function Sumary() {
             </div>
           </div>
         </section>
+        
       </main>
       <footer>
         <p>Footer</p>

@@ -1,0 +1,156 @@
+/* FlowchartButton.module.css */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 26px;
+  background: #0d0d0d;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  color: #d4d4d8;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    border-color 0.3s ease,
+    color 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
+}
+
+/* ambient glow layer */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.1) 0%,
+    rgba(16, 185, 129, 0.07) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+/* shimmer sweep */
+.btn::after {
+  content: "";
+  position: absolute;
+  top: -120%;
+  left: -80%;
+  width: 45%;
+  height: 340%;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.06) 50%,
+    transparent 62%
+  );
+}
+
+/* ── hover state ── */
+.btn:hover {
+  border-color: #6366f1;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15),
+    0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.btn:hover::before {
+  opacity: 1;
+}
+
+.btn:hover::after {
+  animation: shimmer 0.55s ease forwards;
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.975);
+  box-shadow: none;
+}
+
+/* ── SVG defaults ── */
+.node {
+  fill: #1a1a1a;
+  stroke: #3f3f46;
+  stroke-width: 1.2;
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.arrow {
+  stroke: #3f3f46;
+  stroke-width: 1.2;
+  stroke-dasharray: 22;
+  stroke-dashoffset: 0;
+  transition: stroke 0.3s ease;
+}
+
+.dot {
+  fill: #3f3f46;
+  transition: fill 0.3s ease, r 0.3s ease;
+}
+
+/* ── hover: icon comes alive ── */
+.btn:hover .nodeStart {
+  fill: #312e81;
+  stroke: #818cf8;
+}
+
+.btn:hover .diamond {
+  fill: #1c1917;
+  stroke: #f59e0b;
+}
+
+.btn:hover .nodeEnd {
+  fill: #064e3b;
+  stroke: #34d399;
+}
+
+.btn:hover .arrow {
+  stroke: #6366f1;
+  animation: dash 0.45s ease forwards;
+}
+
+.btn:hover .dot {
+  fill: #818cf8;
+  animation: pulseDot 0.7s ease infinite alternate;
+}
+
+/* ── label ── */
+.label {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── keyframes ── */
+@keyframes shimmer {
+  to {
+    left: 135%;
+  }
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 22;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pulseDot {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.9);
+  }
+}
