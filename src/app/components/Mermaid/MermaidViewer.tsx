@@ -19,11 +19,10 @@ function ensureMermaidInitialized() {
     securityLevel: "loose",
     themeVariables: {
       background: "transparent",
-      // Cores ajustadas para bater com o visual dark mode do vídeo
-      primaryColor: "#1e293b",       // Fundo dos nós (retângulos/losangos)
-      primaryTextColor: "#f8fafc",   // Cor do texto
-      primaryBorderColor: "#475569", // Borda sutil
-      lineColor: "#94a3b8",          // Cor das setas e linhas
+      primaryColor: "#1e293b",       
+      primaryTextColor: "#f8fafc",   
+      primaryBorderColor: "#475569", 
+      lineColor: "#94a3b8",          
       secondaryColor: "#0f172a",
       secondaryTextColor: "#f8fafc",
       secondaryBorderColor: "#334155",
@@ -35,7 +34,7 @@ function ensureMermaidInitialized() {
     flowchart: {
       useMaxWidth: false,
       htmlLabels: true,
-      curve: "linear", // <-- ISSO MUDA TUDO: deixa as linhas retas e profissionais igual ao vídeo
+      curve: "linear", 
       padding: 20,
       nodeSpacing: 50,
       rankSpacing: 60,
@@ -56,7 +55,6 @@ export default function MermaidViewer({ chart, className }: MermaidViewerProps) 
   const [svg, setSvg] = useState<string>("");
   const [renderError, setRenderError] = useState<string | null>(null);
 
-  // Removido o useState para x, y, scale. Usando Ref para 60fps lisinho!
   const transformRef = useRef({ x: 0, y: 0, scale: 1 });
 
   const gestureRef = useRef<{
@@ -77,7 +75,6 @@ export default function MermaidViewer({ chart, className }: MermaidViewerProps) 
 
   const hasChart = useMemo(() => chart.trim().length > 0, [chart]);
 
-  // Aplica o transform direto no DOM (Ignora o ciclo do React, ficando super rápido)
   const applyTransform = (instant = false) => {
     const wrap = svgWrapRef.current;
     if (!wrap) return;
@@ -110,9 +107,8 @@ export default function MermaidViewer({ chart, className }: MermaidViewerProps) 
         if (cancelled) return;
         setSvg(nextSvg);
 
-        // Reseta a posição ao carregar um gráfico novo
         transformRef.current = { x: 0, y: 0, scale: 1 };
-        setTimeout(() => applyTransform(true), 50); // Aplica após o React injetar o SVG
+        setTimeout(() => applyTransform(true), 50); 
       } catch (e) {
         if (cancelled) return;
         setSvg("");
@@ -142,7 +138,7 @@ export default function MermaidViewer({ chart, className }: MermaidViewerProps) 
       transformRef.current.scale = clamped;
     }
     
-    applyTransform(false); // Falso = usa transição suave css
+    applyTransform(false); 
   };
 
   const handleWheel: React.WheelEventHandler<HTMLDivElement> = (e) => {
@@ -171,7 +167,7 @@ export default function MermaidViewer({ chart, className }: MermaidViewerProps) 
     gestureRef.current.startY = e.clientY;
     gestureRef.current.startTx = transformRef.current.x;
     gestureRef.current.startTy = transformRef.current.y;
-    applyTransform(true); // Muda o cursor instantaneamente
+    applyTransform(true); 
   };
 
   const handlePointerMove: React.PointerEventHandler<HTMLDivElement> = (e) => {
@@ -184,7 +180,6 @@ export default function MermaidViewer({ chart, className }: MermaidViewerProps) 
     transformRef.current.x = gestureRef.current.startTx + dx;
     transformRef.current.y = gestureRef.current.startTy + dy;
     
-    // requestAnimationFrame para o drag ficar perfeito nos 60fps
     requestAnimationFrame(() => applyTransform(true));
   };
 
@@ -272,18 +267,17 @@ export default function MermaidViewer({ chart, className }: MermaidViewerProps) 
         className="mt-4 relative h-[420px] md:h-[520px] overflow-hidden rounded-2xl border border-neutral-800 bg-[#0b1120]"
         style={{
           touchAction: "none",
-          // Padrão de pontilhados mais próximo do vídeo
           backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.07) 1px, transparent 0)",
           backgroundSize: "24px 24px",
         }}
       >
         {!hasChart ? (
           <div className="absolute inset-0 grid place-items-center p-8 text-center">
-             {/* ... (mantido igual) ... */}
+             
           </div>
         ) : renderError ? (
           <div className="absolute inset-0 grid place-items-center p-8 text-center">
-            {/* ... (mantido igual) ... */}
+            
           </div>
         ) : (
           <div
