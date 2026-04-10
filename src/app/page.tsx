@@ -10,7 +10,6 @@ import {
   AUTH_TOKEN_COOKIE_KEY,
 } from "./utils/authToken";
 import { parseCookies } from "nookies";
-import MessageError from "./components/message/messageError";
 import LoadingAuth from "./components/loading/loadingAuthUser"
 
 function PersonIcon() {
@@ -212,11 +211,6 @@ export default function Home() {
         </p>
       </div>
       
-      {error && (
-        <div className="absolute right-9 top-25">
-          <MessageError error={error} />
-        </div>
-      )}
       
     </div>
   );

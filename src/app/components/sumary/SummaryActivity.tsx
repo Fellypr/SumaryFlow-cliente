@@ -213,9 +213,6 @@ export default function SummaryActivity() {
                   <h3 className="text-base md:text-lg font-semibold text-neutral-100 tracking-tight">
                     Fluxograma
                   </h3>
-                  <p className="mt-0.5 text-xs text-neutral-400">
-                    Scroll para zoom, arraste para mover. ESC para fechar.
-                  </p>
                 </div>
 
                 <button

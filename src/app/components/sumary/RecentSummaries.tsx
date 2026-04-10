@@ -9,7 +9,6 @@ export default function RecentSummaries() {
   const formatDate = (value: string) =>
     new Date(value).toLocaleString("pt-BR", {
       dateStyle: "short",
-      timeStyle: "short",
     });
 
   return (
