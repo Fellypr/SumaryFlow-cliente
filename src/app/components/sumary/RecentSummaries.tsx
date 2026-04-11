@@ -1,10 +1,10 @@
-"use client"
-import { Search } from "lucide-react";
+"use client";
+import { Search, Loader2 } from "lucide-react";
 import SummaryItem from "./SummaryItem";
 import { useSummary } from "../../hooks/useSummary";
 
 export default function RecentSummaries() {
-  const { summarize, setTitle, title, isFetching } = useSummary();
+  const { summarize, setTitle, title, isFetching, loading } = useSummary();
 
   const formatDate = (value: string) =>
     new Date(value).toLocaleString("pt-BR", {
@@ -28,20 +28,40 @@ export default function RecentSummaries() {
           />
         </div>
 
-        
-
         {!isFetching && summarize.length === 0 && (
-          <p className="text-xs text-neutral-400 mb-2">Nenhum resumo encontrado.</p>
+          <p className="text-xs text-neutral-400 mb-2">
+            Nenhum resumo encontrado.
+          </p>
         )}
 
+        {loading && (
+          <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-neutral-700/30 transition-colors cursor-pointer">
+            <div className="w-12 h-12 rounded-lg shrink-0 flex items-center justify-center bg-neutral-700 border border-neutral-600 animate-pulse"></div>
+            <div className="flex-1 min-w-0">
+              <div className="text-white font-medium truncate bg-neutral-700 animate-pulse rounded-sm">
+                ­
+              </div>
+              <div className="w-19 text-sm text-gray-400 truncate bg-neutral-700 animate-pulse rounded-sm h-3 mt-1.5">
+                ­
+              </div>
+            </div>
+            <div className="shrink-0 flex items-center gap-1.5">
+              <Loader2 className="w-4 h-4 text-gray-400 animate-spin" />
+              <span className="text-sm text-gray-400">Processing</span>
+            </div>
+          </div>
+        )}
+        
         {summarize.map((item, index) => (
-          <SummaryItem
-            key={`${item.title}-${item.dateCreateSumary}-${index}`}
-            title={item.title}
-            thumbnaiUrl={item.thumbnaiUrl}
-            metadata={formatDate(item.dateCreateSumary)}
-            item={item}
-          />
+          <>
+            <SummaryItem
+              key={`${item.title}-${item.dateCreateSumary}-${index}`}
+              title={item.title}
+              thumbnaiUrl={item.thumbnaiUrl}
+              metadata={formatDate(item.dateCreateSumary)}
+              item={item}
+            />
+          </>
         ))}
       </div>
     </div>

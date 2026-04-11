@@ -18,7 +18,7 @@ export default function SummaryItem({
   thumbnaiUrl,
   item,
 }: SummaryItemProps) {
-  const { handleSumarize } = useSummary();
+  const { handleSumarize} = useSummary();
   return (
     <div onClick={() => handleSumarize(item)} key={item.id} className="flex items-center gap-4 p-3 rounded-lg hover:bg-neutral-700/30 transition-colors cursor-pointer">
       <div
@@ -31,10 +31,8 @@ export default function SummaryItem({
         <p className="text-sm text-gray-400 truncate">{metadata}</p>
       </div>
       <div className="shrink-0 flex items-center gap-1.5">
-          <>
             <Check className="w-4 h-4 text-green-500" />
             <span className="text-sm text-gray-400">Complete</span>
-          </>
       </div>
     </div>
   );
