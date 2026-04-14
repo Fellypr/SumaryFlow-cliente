@@ -46,7 +46,8 @@ export default function Navbar() {
         <ul className="flex items-center gap-3 sm:gap-5  w-[300px] relative right-[-100px]">
           <li>
             <Link
-              href="/"
+              href="https://github.com/Fellypr"
+              target="_blank"
               aria-label="Github"
               className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/5 transition hover:border-white hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
             >
@@ -69,8 +70,9 @@ export default function Navbar() {
           </li>
           <li>
             <Link
-              href="/about"
+              href="https://www.linkedin.com/in/fellype-kenned-05bb94319"
               aria-label="LinkedIn"
+              target="_blank"
               className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/5 transition hover:border-sky-400 hover:bg-sky-500/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/70"
             >
               <svg
@@ -81,24 +83,6 @@ export default function Navbar() {
                 <path
                   fill="currentColor"
                   d="M6.09 6.5a2.09 2.09 0 1 1 0-4.18 2.09 2.09 0 0 1 0 4.18ZM4.25 8h3.7V21H4.25V8Zm6.18 0h3.55v1.78h.05c.5-.95 1.7-1.96 3.5-1.96 3.75 0 4.44 2.47 4.44 5.68V21h-3.7v-6.13c0-1.46-.03-3.34-2.04-3.34-2.05 0-2.36 1.6-2.36 3.23V21h-3.7V8Z"
-                />
-              </svg>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/contact"
-              aria-label="Gmail"
-              className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/5 transition hover:border-red-400 hover:bg-red-500/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400/70"
-            >
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                className="h-5 w-5 text-white/80 transition group-hover:text-white"
-              >
-                <path
-                  fill="currentColor"
-                  d="M20 4H4a2 2 0 0 0-2 2v12.01A1.99 1.99 0 0 0 3.99 22h16.02A1.99 1.99 0 0 0 22 20.01V6a2 2 0 0 0-2-2Zm-.2 3.23v.01L12 12.67 4.2 7.24V6.3L12 11.7l7.8-5.4v1.93Z"
                 />
               </svg>
             </Link>

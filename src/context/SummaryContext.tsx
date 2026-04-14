@@ -68,7 +68,7 @@ export const SummaryProvider = ({ children }: { children: ReactNode }) => {
         setLoading(true);
         try {
             const response = await SummaryServices.registerSummry({ videoUrl: urlVideo });
-            toast.success("Sumário gerado com sucesso", {
+            toast.success("Resumo gerado com sucesso", {
                 toasterId: "menssageSuccess",
             });
             setUrlVideo("");

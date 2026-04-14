@@ -17,6 +17,7 @@ import {
   clearAuthTokenCookie,
   isAuthTokenValid,
 } from "../utils/authToken";
+import Footer from "../components/footer/Footer";
 
 export default function Sumary() {
   const { urlVideo, setUrlVideo, SubmitVideoUrl, loading } = useSummary();
@@ -76,7 +77,7 @@ export default function Sumary() {
                       onClick={SubmitVideoUrl}
                     >
                       <Sparkles className="w-4 h-4 text-white" />
-                      Summarize
+                      Resumir
                     </button>
                   )}
                 </div>
@@ -98,9 +99,7 @@ export default function Sumary() {
         </section>
         
       </main>
-      <footer>
-        <p>Footer</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
