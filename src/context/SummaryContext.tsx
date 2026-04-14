@@ -56,10 +56,7 @@ export const SummaryProvider = ({ children }: { children: ReactNode }) => {
             setSummarize(response);
             return response;
         } catch (err: unknown) {
-            const msg = parseApiError(err);
-            toast.error(msg.message, {
-                toasterId: "menssageErro",
-            });
+            
             return [];
         } finally {
             setIsFetching(false);
@@ -92,7 +89,6 @@ export const SummaryProvider = ({ children }: { children: ReactNode }) => {
         if (!idUser) return;
         const timer = setTimeout(() => {
             GetSummaries(idUser, title);
-            console.log(summarize)
         }, 500);
         return () => clearTimeout(timer);
     }, [idUser, title, GetSummaries]);

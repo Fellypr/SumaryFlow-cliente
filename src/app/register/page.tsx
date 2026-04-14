@@ -76,6 +76,7 @@ export default function Register() {
                 onChange={(e) => setUserName(e.target.value)}
                 className="flex-1 bg-transparent text-white placeholder-gray-500 focus:outline-none"
                 placeholder="User1234"
+                required
               />
             </div>
           </div>
@@ -92,6 +93,7 @@ export default function Register() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="flex-1 bg-transparent text-white placeholder-gray-500 focus:outline-none"
                 placeholder="••••••••"
+                required
               />
               <button
                 type="button"
@@ -116,6 +118,7 @@ export default function Register() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="flex-1 bg-transparent text-white placeholder-gray-500 focus:outline-none"
                 placeholder="••••••••"
+                required
               />
               <button
                 type="button"

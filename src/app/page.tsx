@@ -10,7 +10,9 @@ import {
   AUTH_TOKEN_COOKIE_KEY,
 } from "./utils/authToken";
 import { parseCookies } from "nookies";
-import LoadingAuth from "./components/loading/loadingAuthUser"
+import LoadingAuth from "./components/loading/loadingAuthUser";
+
+type AuthPhase = "checking" | "guest" | "redirecting";
 
 function PersonIcon() {
   return (
@@ -106,17 +108,35 @@ export default function Home() {
     AuthenticateUser,
   } = UseAuth();
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [authPhase, setAuthPhase] = useState<AuthPhase>("checking");
   const router = useRouter();
 
   useEffect(() => {
     const token = parseCookies()[AUTH_TOKEN_COOKIE_KEY];
-    if (!token) return;
-    if (!isAuthTokenValid(token)) {
-      clearAuthTokenCookie();
+    if (!token) {
+      setAuthPhase("guest");
       return;
     }
+    if (!isAuthTokenValid(token)) {
+      clearAuthTokenCookie();
+      setAuthPhase("guest");
+      return;
+    }
+    setAuthPhase("redirecting");
     router.replace("/sumary");
   }, [router]);
+
+  if (authPhase !== "guest") {
+    return (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black"
+        aria-busy="true"
+        aria-live="polite"
+      >
+        <LoadingAuth />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen  flex items-center justify-center p-4 ">
@@ -210,8 +230,6 @@ export default function Home() {
           </Link>
         </p>
       </div>
-      
-      
     </div>
   );
 }
